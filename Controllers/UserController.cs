@@ -475,10 +475,10 @@ namespace MemberService.Controllers
                     From = new MailAddress("your-email@gmail.com", "Please Reset Your Password！"),
                     Subject = "重設您的密碼",
                     Body = $@"
-                            <p>親愛的 {user.Username}，</p>
-                            <p>請點擊以下連結重設密碼：</p>ˋ
-                            <a href='{resetUrl}'>重設密碼</a>
-                            <p>該連結有效期為 1 分鐘。</p>",
+                            <p>親愛的 {user.Username}，您好</p>
+                            <p>請點擊以下連結重設密碼：</p>
+                            <a href='{resetUrl}'>進入重置密碼頁面</a>
+                            <p>該連結有效期為 3 分鐘。</p>",
                     // 將 Body 設定為 HTML 格式，確保可以顯示 HTML 標籤
                     IsBodyHtml = true
                 };
