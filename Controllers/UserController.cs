@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity.Data;
 
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace MemberService.Controllers
 {
@@ -615,6 +616,29 @@ namespace MemberService.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new { success = false, message = $"更新商品失敗： {ex.Message}" });
+            }
+        }
+
+        // 刪除商品
+        [HttpDelete("products/{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var product = await _context.product.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound(new { success = false, message = "商品不存在" });
+            }
+
+            _context.product.Remove(product);
+
+            try
+            {
+                await _context.SaveChangesAsync(); // 從資料表刪除商品
+                return Ok(new { success = true, message = "商品刪除成功" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = $"刪除商品失敗： {ex.Message}" });
             }
         }
     }
