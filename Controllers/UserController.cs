@@ -547,7 +547,45 @@ namespace MemberService.Controllers
 
             return Ok(new { success = true, message = "密碼重設成功。" });
         }
+
+        // 獲取所有商品
+        [HttpGet("products")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        {
+            try
+            {
+                var products = await _context.product.ToListAsync();
+                return Ok(products); // 返回所有商品資料
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = $"無法獲取商品資料: {ex.Message}" });
+            }
+        }
+
+        // 新增商品
+        [HttpPost("products")]
+        public async Task<IActionResult> AddProduct([FromBody] Product product)
+        {
+            if (product == null || string.IsNullOrEmpty(product.Name) || product.Price <= 0)
+            {
+                return BadRequest(new { success = false, message = "請提供有效的商品資料" });
+            }
+
+            try
+            {
+                _context.product.Add(product); // 新增商品
+                await _context.SaveChangesAsync();
+                return Ok(new { success = true, message = "商品新增成功" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = $"新增商品失敗: {ex.Message}" });
+            }
+        }
+
+
+
+
     }
-
-
 }
