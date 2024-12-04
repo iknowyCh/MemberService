@@ -584,8 +584,38 @@ namespace MemberService.Controllers
             }
         }
 
+        // 編輯商品
+        [HttpPut("products/{id}")]
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] Product updatedProduct)
+        {
+            if (updatedProduct == null)
+            {
+                return BadRequest(new { success = false, message = "請提供有效的商品資料" });
+            }
 
+            var product = await _context.product.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound(new { success = false, message = "商品不存在" });
+            }
 
+            // 更新商品屬性
+            product.Code = updatedProduct.Code;
+            product.Category = updatedProduct.Category;
+            product.Name = updatedProduct.Name;
+            product.Price = updatedProduct.Price;
+            product.Base64Image = updatedProduct.Base64Image;
 
+            try
+            {
+                await _context.SaveChangesAsync(); // 儲存變更
+                return Ok(new { success = true, message = "商品更新成功" });
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = $"更新商品失敗： {ex.Message}" });
+            }
+        }
     }
 }
