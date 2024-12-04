@@ -15,5 +15,8 @@ namespace MemberService.Data
 
         // 新增 KetInformation  資料表
         public DbSet<Key> key { get; set; }
+
+        // 新增 Product 資料表
+        public DbSet<Product> product { get; set; }  
     }
 }
