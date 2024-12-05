@@ -320,7 +320,6 @@ namespace MemberService.Controllers
         }
 
         // 獲取所有管理員 API
-        // 獲取所有管理員 API
         [HttpGet("admins")]
         public async Task<ActionResult<IEnumerable<Admin>>> GetAdmins()
         {
